@@ -27,21 +27,11 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-//    printf("Enter your login : ");
-//    fgets(buffer, 1024, stdin);
-//    send(clientSocket, buffer, strlen(buffer), 0);
-//
-//    printf("Enter your password : ");
-//    fgets(buffer, 1024, stdin);
-//    send(clientSocket, buffer, strlen(buffer), 0);
-
     while(1) {
         printf("Enter a message : ");
         fgets(buffer, 1024, stdin);
         send(clientSocket, buffer, strlen(buffer), 0);
-
-//        recv(clientSocket,buffer,1024,0);
-//        printf("Message from server : %s\n",buffer);
+        
     }
     closesocket(clientSocket);
     WSACleanup();
