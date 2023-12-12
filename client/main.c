@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 #ifdef _WIN32
-    memset(&serverAddr, '\0', sizeof(serverAddr));
+    memset(&server_address, '\0', sizeof(server_address));
 #else
     memset(&server_address, 0, sizeof(server_address));
 #endif
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
         memset(buffer, 0, sizeof(buffer));
     }
 #ifdef _WIN32
-    closesocket(clientSocket);
+    closesocket(client_socket);
     WSACleanup();
 #else
     close(client_socket);
