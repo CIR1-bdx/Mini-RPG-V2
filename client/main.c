@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 #endif
 
-#define IP ""
+#define IP "127.0.0.1"
 #define PORT 8080
 #define MAX_BUFFER_SIZE 1024
 
