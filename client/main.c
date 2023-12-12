@@ -5,15 +5,11 @@
 
 
 #ifdef _WIN32
-
 #include <winsock2.h>
 #include <process.h>
 #pragma comment(lib, "Ws2_32.lib")
-
 #else
-
 #include <arpa/inet.h>
-
 #endif
 
 #define IP ""
@@ -21,10 +17,6 @@
 #define MAX_BUFFER_SIZE 1024
 
 int main(int argc, char *argv[]) {
-//    if (argc != 2) {
-//        fprintf(stderr, "Utilisation : %s <adresse_ip_du_serveur>\n", argv[0]);
-//        exit(EXIT_FAILURE);
-//    }
 #ifdef _WIN32
     WSADATA wsaData;
 #endif
@@ -48,7 +40,7 @@ int main(int argc, char *argv[]) {
     server_address.sin_addr.s_addr = inet_addr(IP);  // Adresse IP passée en argument
     server_address.sin_port = htons(PORT);
 
-    // Connecter le client au serveur
+
     if (connect(client_socket, (struct sockaddr *) &server_address, sizeof(server_address)) == -1) {
         perror("Erreur lors de la connexion au serveur");
         exit(EXIT_FAILURE);
@@ -68,6 +60,7 @@ int main(int argc, char *argv[]) {
 
         memset(buffer, 0, sizeof(buffer));
     }
+
 #ifdef _WIN32
     closesocket(client_socket);
     WSACleanup();
