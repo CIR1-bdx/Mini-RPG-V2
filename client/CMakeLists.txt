@@ -3,6 +3,6 @@ project(client C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(client main.c)
+add_executable(client clientWIN.c)
 
-target_link_libraries(server Ws2_32)
+target_link_libraries(client Ws2_32)
