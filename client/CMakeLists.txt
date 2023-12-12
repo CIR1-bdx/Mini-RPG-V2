@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(client main.c)
 
-target_link_libraries(server Ws2_32)
+if (WIN32)
+    target_link_libraries(client ws2_32)
+endif()
