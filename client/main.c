@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 #ifdef _WIN32
-    memset(&server_address, '\0', sizeof(server_address));
+    memset(&server_address, 0, sizeof(server_address));
 #else
     memset(&server_address, 0, sizeof(server_address));
 #endif
