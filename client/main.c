@@ -3,13 +3,14 @@
 #include <string.h>
 #include <unistd.h>
 
-
 #ifdef _WIN32
 #include <winsock2.h>
 #include <process.h>
 #pragma comment(lib, "Ws2_32.lib")
 #else
+
 #include <arpa/inet.h>
+
 #endif
 
 #define IP "127.0.0.1"
@@ -31,7 +32,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 #ifdef _WIN32
-    memset(&server_address, 0, sizeof(server_address));
+        memset(&server_address, '\0', sizeof(server_address));
 #else
     memset(&server_address, 0, sizeof(server_address));
 #endif
@@ -39,7 +40,6 @@ int main(int argc, char *argv[]) {
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = inet_addr(IP);  // Adresse IP passée en argument
     server_address.sin_port = htons(PORT);
-
 
     if (connect(client_socket, (struct sockaddr *) &server_address, sizeof(server_address)) == -1) {
         perror("Erreur lors de la connexion au serveur");
@@ -50,15 +50,31 @@ int main(int argc, char *argv[]) {
     printf("Connecté au serveur. Vous pouvez commencer à envoyer des messages.\n");
 
     while (1) {
-        printf("Client: ");
-        fgets(buffer, sizeof(buffer), stdin);
+//        send(client_socket , "Test de message", strlen("Test de message"), 0);
+        char serv_buffer[1024];
+        recv(client_socket, serv_buffer, sizeof(serv_buffer), 0);
+        printf("%s\n", serv_buffer);
+        printf("%d",serv_buffer == "test");
+        printf("coucou\n");
+        if ((serv_buffer == "test") == 0) {
+            printf("Client: ");
+            fgets(buffer, sizeof(buffer), stdin);
 
-        if (send(client_socket, buffer, strlen(buffer), 0) == -1) {
-            perror("Erreur lors de l'envoi du message");
-            break;
+            if (send(client_socket, buffer, strlen(buffer), 0) == -1) {
+                perror("Erreur lors de l'envoi du message");
+                continue;
+            }
         }
 
-        memset(buffer, 0, sizeof(buffer));
+//        printf("Client: ");
+//        fgets(buffer, sizeof(buffer), stdin);
+//
+//        if (send(client_socket, buffer, strlen(buffer), 0) == -1) {
+//            perror("Erreur lors de l'envoi du message");
+//            break;
+//        }
+
+//        memset(serv_buffer, 0, sizeof(serv_buffer));
     }
 
 #ifdef _WIN32
