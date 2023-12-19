@@ -10,12 +10,22 @@
 #else
 
 #include <arpa/inet.h>
+#include <pthread.h>
 
 #endif
 
 #define IP "127.0.0.1"
 #define PORT 8080
 #define MAX_BUFFER_SIZE 1024
+
+void *recive_msg(void *client_socket_ptr) {
+    int client_socket = *((int *) client_socket_ptr);
+    char serv_buffer[1024];
+
+    recv(client_socket, serv_buffer, sizeof(serv_buffer), 0);
+    printf("%s\n", serv_buffer);
+    memset(serv_buffer, 0, sizeof(serv_buffer));
+}
 
 int main(int argc, char *argv[]) {
 #ifdef _WIN32
@@ -49,14 +59,15 @@ int main(int argc, char *argv[]) {
 
     printf("Connecté au serveur. Vous pouvez commencer à envoyer des messages.\n");
 
+
     while (1) {
-//        send(client_socket , "Test de message", strlen("Test de message"), 0);
-        char serv_buffer[1024];
-        recv(client_socket, serv_buffer, sizeof(serv_buffer), 0);
+        char serv_buffer[1024] = "";
+        int bytes_received = recv(client_socket, serv_buffer, sizeof(serv_buffer), 0);
+        if (bytes_received <= 0) {
+            break;
+        }
         printf("%s\n", serv_buffer);
-        printf("%d",serv_buffer == "test");
-        printf("coucou\n");
-        if ((serv_buffer == "test") == 0) {
+        if (serv_buffer[0] == '\02') {
             printf("Client: ");
             fgets(buffer, sizeof(buffer), stdin);
 
@@ -64,7 +75,12 @@ int main(int argc, char *argv[]) {
                 perror("Erreur lors de l'envoi du message");
                 continue;
             }
+            memset(buffer, 0, sizeof(buffer));
         }
+
+//        pthread_t pthread;
+//        pthread_create(&pthread, NULL, recive_msg, (void *) &client_socket);
+//        pthread_detach(pthread);
 
 //        printf("Client: ");
 //        fgets(buffer, sizeof(buffer), stdin);
@@ -74,7 +90,7 @@ int main(int argc, char *argv[]) {
 //            break;
 //        }
 
-//        memset(serv_buffer, 0, sizeof(serv_buffer));
+
     }
 
 #ifdef _WIN32

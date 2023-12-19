@@ -15,7 +15,7 @@ DWORD WINAPI handle_client(LPVOID client_socket) {
     char buffer[BUFFER_SIZE];
     //srand(time(NULL));
 //int random = rand();
-    strcpy(buffer, "Avez vous un compte ?\n");
+    strcpy(buffer, "\02Avez vous un compte ?\n");
     send(socket, buffer, strlen(buffer), 0);
     int bytes_received = recv(socket, buffer, BUFFER_SIZE, 0);
     buffer[bytes_received] = '\0';
