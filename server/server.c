@@ -75,8 +75,6 @@ int start_server() {
 #endif
 
                 break;
-            }else{
-                printf("pourquoi t là :sob:\n");
             }
         }
     }
