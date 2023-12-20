@@ -1,6 +1,3 @@
-//
-// Created by Victor on 26/10/2023.
-//
 
 #include "handle_client.h"
 #include "time.h"
@@ -10,9 +7,11 @@
 DWORD WINAPI handle_client(LPVOID client_socket) {
 #else
 
-void *handle_client(void *client_socket) {
+void *handle_client(void *pi) {
 #endif
-    SOCKET socket = *(SOCKET *) client_socket;
+    int i = *(int*)pi;
+    SOCKET socket = listeClients[i].socket;
+
     char buffer[BUFFER_SIZE];
     while (1){
         if (send(socket, "\02Quel est votre pseudo", strlen("\02rQuel est votre pseudo"), 0) == -1) {
@@ -26,11 +25,12 @@ void *handle_client(void *client_socket) {
         if (strlen(buffer) <= 4) { continue; }
         break;
     }
-    if (read_auth(buffer,client_socket) == 1){
+    if (read_auth(buffer,&socket, i) == 1){
         closesocket(socket);
         printf("Removed 1 client, destroyed 1 thread\n");
         return 0;
     }
+
 
     closesocket(socket);
     printf("Removed 1 client, destroyed 1 thread\n");

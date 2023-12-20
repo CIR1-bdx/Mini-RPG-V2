@@ -1,14 +1,9 @@
-//
-// Created by Victor on 26/10/2023.
-//
-
 #include "net/config.h"
 #include "server.h"
 
 
-SOCKET clients[MAX_CLIENTS] = {INVALID_SOCKET,INVALID_SOCKET};
-
 #include "net/handle_client.h"
+
 
 int start_server() {
     SOCKET server_socket, new_socket;
@@ -23,7 +18,10 @@ int start_server() {
         return 1;
     }
 #endif
-
+    for (int i = 0; i < MAX_CLIENTS; ++i) {
+        listeClients[i].socket = INVALID_SOCKET;
+        strcpy(listeClients[i].pseudo,"");
+    }
     if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
         perror("socket failed");
         exit(EXIT_FAILURE);
@@ -48,6 +46,9 @@ int start_server() {
     int clientID;
 
     while (1) {
+        for (int i = 0; i < MAX_CLIENTS; ++i) {
+            printf("(%d)%s\n",i,listeClients[i].pseudo);
+        }
         if ((new_socket = accept(server_socket, (struct sockaddr *)&address, (socklen_t*)&addr_len)) < 0) {
             perror("accept failed");
             exit(EXIT_FAILURE);
@@ -57,8 +58,8 @@ int start_server() {
 
         // Add the new client to the clients array and start a new thread for the client
         for (int i = 0; i < MAX_CLIENTS; i++) {
-            if (clients[i] == INVALID_SOCKET) {
-                clients[i] = new_socket;
+            if (listeClients[i].socket == INVALID_SOCKET) {
+                listeClients[i].socket = new_socket;
                 printf("added client\n");
 
 #ifdef _WIN32 // Création du thread sur windows
@@ -70,7 +71,7 @@ int start_server() {
                 }
 #else // Création du thread sur unix
                 pthread_t thread_id;
-                pthread_create(&thread_id, NULL, handle_client, &clients[i]);
+                pthread_create(&thread_id, NULL, handle_client, &i);
                 pthread_detach(thread_id); // To automatically reclaim thread resources
 #endif
 

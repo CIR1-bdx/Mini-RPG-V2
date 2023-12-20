@@ -26,9 +26,17 @@
 #endif
 
 #define PORT 8080
-#define MAX_CLIENTS 5
+#define MAX_CLIENTS 15
 #define BUFFER_SIZE 1024
 
 extern SOCKET clients[MAX_CLIENTS];
+
+typedef struct Client{
+    SOCKET socket;
+    char pseudo[1024];
+}Client;
+
+Client listeClients[MAX_CLIENTS];
+
 
 #endif //SERVER_CONFIG_H

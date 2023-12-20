@@ -31,7 +31,7 @@ char *pseudo_use(TableauCompte *list, char newName[]) {
     return NULL;
 }
 
-int read_auth(char enter[], void *client_socket) {
+int read_auth(char enter[], void *client_socket, int i) {
     SOCKET socket = *(SOCKET *) client_socket;
 
     char pseudo[1024] = "";
@@ -100,6 +100,6 @@ int read_auth(char enter[], void *client_socket) {
         }
     }
     fclose(ptr);
-
+    strcpy(listeClients[i].pseudo,pseudo);
     return 0;
 }
