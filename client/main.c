@@ -77,20 +77,6 @@ int main(int argc, char *argv[]) {
             }
             memset(buffer, 0, sizeof(buffer));
         }
-
-//        pthread_t pthread;
-//        pthread_create(&pthread, NULL, recive_msg, (void *) &client_socket);
-//        pthread_detach(pthread);
-
-//        printf("Client: ");
-//        fgets(buffer, sizeof(buffer), stdin);
-//
-//        if (send(client_socket, buffer, strlen(buffer), 0) == -1) {
-//            perror("Erreur lors de l'envoi du message");
-//            break;
-//        }
-
-
     }
 
 #ifdef _WIN32

@@ -1,3 +1,4 @@
+#include "./net/config.h"
 int ID = 0;
 
 typedef struct TableauCompte {
