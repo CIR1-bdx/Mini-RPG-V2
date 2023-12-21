@@ -19,6 +19,7 @@ void ajouter(TableauCompte **list, char name[], char mdp[]) {
 }
 
 char *pseudo_use(TableauCompte *list, char newName[]) {
+    char pseudo[1024]= "";
     if (list == NULL)return NULL;
     while (list->next != NULL) {
         if (strcmp(list->pseudo, newName) == 0) {
