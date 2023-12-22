@@ -4,7 +4,7 @@
 #include "../auth.c"
 
 #ifdef _WIN32
-DWORD WINAPI handle_client(LPVOID client_socket) {
+DWORD WINAPI handle_client(LPVOID pi {
 #else
 
 void *handle_client(void *pi) {
